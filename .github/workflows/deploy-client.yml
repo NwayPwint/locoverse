@@ -1,0 +1,25 @@
+name: Deploy Client (Vercel)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "client/**"
+
+jobs:
+  deploy:
+    name: Deploy to Vercel
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          working-directory: client
+          vercel-args: "--prod"
+
+      - name: Print deployment URL
+        run: echo "Deployed to ${{ steps.deploy.outputs.preview-url }}"

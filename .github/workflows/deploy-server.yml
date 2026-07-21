@@ -1,0 +1,41 @@
+name: Deploy Server (EC2)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "server/**"
+
+jobs:
+  deploy:
+    name: Deploy to EC2
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            cd /opt/locoverse
+
+            echo "Pulling latest changes..."
+            git pull origin main
+
+            echo "Installing server dependencies..."
+            cd server
+            npm ci --omit=dev
+
+            echo "Building server..."
+            npm run build
+
+            echo "Running migrations..."
+            npm run migrate
+
+            echo "Restarting server with PM2..."
+            pm2 restart locoverse || pm2 start dist/index.js --name locoverse
+
+            echo "Deploy complete!"
