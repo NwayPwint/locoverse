@@ -1,0 +1,91 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+@layer base {
+  body {
+    @apply bg-background text-text-primary font-body antialiased;
+  }
+
+  ::selection {
+    @apply bg-accent-action/20 text-text-primary;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center min-h-[44px] px-6 py-3 text-sm font-bold uppercase tracking-[0.2em] bg-accent-action text-white hover:bg-accent-action/90 transition-all duration-200;
+    font-family: var(--font-jakarta), 'Plus Jakarta Sans', sans-serif;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center min-h-[44px] px-6 py-3 text-sm font-bold uppercase tracking-[0.2em] bg-transparent text-text-primary hover:bg-text-primary/5 border border-border transition-all duration-200;
+    font-family: var(--font-jakarta), 'Plus Jakarta Sans', sans-serif;
+  }
+
+  .input-field {
+    @apply w-full bg-white border border-border px-4 py-3 text-text-primary placeholder-text-secondary focus:outline-none focus:ring-1 focus:ring-accent-action/50 transition-all duration-200 min-h-[44px];
+  }
+
+  .tag {
+    @apply inline-flex items-center px-3 py-1.5 text-xs font-semibold border border-border bg-white;
+    font-family: var(--font-mono), 'JetBrains Mono', monospace;
+    font-weight: 600;
+  }
+
+  .tag-accent {
+    @apply tag bg-accent-action/10 text-accent-action border-accent-action/20;
+  }
+
+  .card {
+    @apply bg-background border border-border p-6;
+  }
+
+  .card-hover {
+    @apply card hover:border-accent-action/30 transition-all duration-200 cursor-pointer;
+  }
+
+  audio {
+    @apply rounded-none;
+  }
+
+  audio::-webkit-media-controls-enclosure {
+    border-radius: 0;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes highlightFlash {
+  0% { background-color: rgba(127, 36, 71, 0.15); }
+  100% { background-color: transparent; }
+}
+
+.msg-highlight {
+  animation: highlightFlash 1.5s ease-out;
+}
+
+.animate-wave {
+  animation: wave 1s ease-in-out infinite;
+}
+
+@keyframes wave {
+  0%, 100% { transform: scaleY(0.3); }
+  50% { transform: scaleY(1); }
+}
+
+
+.safe-area-pb {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}

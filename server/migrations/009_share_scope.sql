@@ -1,0 +1,2 @@
+ALTER TABLE shared_songs ADD COLUMN IF NOT EXISTS share_scope VARCHAR(16) NOT NULL DEFAULT 'whole';
+ALTER TABLE shared_songs ADD COLUMN IF NOT EXISTS section_index INTEGER;
