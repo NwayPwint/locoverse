@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useRef, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { Plus, Trash2, Save, Sparkles, FileText, Music, Share2, Megaphone, MessageCircle, BookOpen } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
@@ -18,7 +18,7 @@ import ArticleEditor from '@/components/articles/ArticleEditor';
 import ArticleCard from '@/components/articles/ArticleCard';
 import PostItem from '@/components/feed/PostItem';
 
-export default function WorkspacePage() {
+function WorkspaceContent() {
   const { user } = useAuth();
   const { showToast } = useToast();
   const searchParams = useSearchParams();
@@ -713,5 +713,13 @@ export default function WorkspacePage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function WorkspacePage() {
+  return (
+    <Suspense fallback={<div className="flex items-center justify-center h-screen text-gray-400">Loading...</div>}>
+      <WorkspaceContent />
+    </Suspense>
   );
 }
