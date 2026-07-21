@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback, Suspense } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
@@ -12,7 +12,7 @@ import api from '@/lib/api';
 import { Conversation, ChatMessage } from './types';
 import ReportModal from '@/components/ui/ReportModal';
 
-export default function ChatPage() {
+function ChatContent() {
   const { user, recentlyDeleted, recentlyEdited } = useAuth();
   const { showToast } = useToast();
   const searchParams = useSearchParams();
@@ -1062,5 +1062,13 @@ export default function ChatPage() {
         />
       )}
     </main>
+  );
+}
+
+export default function ChatPage() {
+  return (
+    <Suspense fallback={<div className="flex items-center justify-center h-screen text-gray-400">Loading...</div>}>
+      <ChatContent />
+    </Suspense>
   );
 }
